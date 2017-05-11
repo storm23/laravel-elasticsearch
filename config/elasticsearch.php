@@ -25,16 +25,28 @@ return [
              * Hosts
              *
              * This is an array of hosts that the client will connect to. It can be a
-             * single host name, or an array if you are running a cluster of Elasticsearch
+             * single host, or an array if you are running a cluster of Elasticsearch
              * instances.
              *
              * This is the only configuration value that is mandatory.
              *
-             * @see https://www.elastic.co/guide/en/elasticsearch/client/php-api/2.0/_configuration.html#_host_configuration
+             * Presently using "extended" host configuration method
+             *
+             * @see https://www.elastic.co/guide/en/elasticsearch/client/php-api/2.0/_configuration.html#_extended_host_configuration
+             *
+             * There is also the shorter "inline" configuration method available
+             *
+             * @see https://www.elastic.co/guide/en/elasticsearch/client/php-api/2.0/_configuration.html#_inline_host_configuration
              */
 
             'hosts' => [
-                'localhost:9200',
+                [
+                    'host'   => env('ELASTICSEARCH_HOST', 'localhost'),
+                    'port'   => env('ELASTICSEARCH_PORT', 9200),
+                    'scheme' => env('ELASTICSEARCH_SCHEME', null),
+                    'user'   => env('ELASTICSEARCH_USER', null),
+                    'pass'   => env('ELASTICSEARCH_PASS', null),
+                ],
             ],
 
             /**
@@ -76,7 +88,7 @@ return [
             'logging' => false,
 
             // If you have an existing instance of Monolog you can use it here.
-            //'logObject' => \Log::getMonolog(),
+            // 'logObject' => \Log::getMonolog(),
 
             'logPath' => storage_path('logs/elasticsearch.log'),
 
@@ -162,6 +174,7 @@ return [
             'endpoint' => null,
 
         ],
+
     ],
 
 ];
